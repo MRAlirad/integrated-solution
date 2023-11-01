@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
@@ -27,8 +26,9 @@ const pages = [
 
 function Navbar() {
 	const currentPath = usePathname();
+
 	return (
-		<header className="static bg-white shadow-[0px_2px_4px_-1px_rgba(0,0,0,0.4)]">
+		<header className="static bg-white shadow-[0px_2px_4px_-1px_rgba(0,0,0,0.4)] h-16">
 			<Container maxWidth="xl">
 				<Toolbar>
 					<IntegrationInstructionsRounded
