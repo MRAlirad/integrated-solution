@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model Document {
+    id          Int         @id                 @default(autoincrement())
+    subject     String      @db.VarChar(255)
+    description String      @db.Text
+    sender      String      @db.VarChar(255)
+    receiver    String      @db.VarChar(255)
+    urgency     Urgency     @default(NORMAL)
+    method      Method      @default(EMAIL)
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+}
+
+enum Urgency {
+    NORMAL
+    SOON
+    IMMEDIATE
+}
+
+enum Method {
+    EMAIL
+    POST
+    FAX
+}
