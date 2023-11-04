@@ -1,20 +1,40 @@
-// import { TextField } from '@mui/material';
+'use client';
 import Container from '@mui/material/Container';
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from '@mui/material';
-import React from 'react';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+
+interface DocumentForm {
+	subject: string;
+	description: string;
+	sender: string;
+	receiver: string;
+}
 
 const Registration = () => {
+	const { register, handleSubmit } = useForm<DocumentForm>();
+	const router = useRouter();
+	const onSubmit = async (data: DocumentForm) => {
+		await axios.post('/api/document', data);
+		router.push('/document');
+	};
+
 	return (
-		<div className="registration-page p-12">
+		<form
+			className="registration-page p-12"
+			onSubmit={handleSubmit((data) => onSubmit(data))}
+		>
 			<Container
 				maxWidth="xl"
 				className="flex flex-col gap-10"
 			>
-				<div className="subject-desctiption-container flex flex-col gap-10">
+				<div className="subject-description-container flex flex-col gap-10">
 					<TextField
 						fullWidth
 						label="Subject"
 						className="bg-white"
+						{...register('subject')}
 					/>
 					<TextField
 						label="Description"
@@ -22,6 +42,7 @@ const Registration = () => {
 						fullWidth
 						multiline
 						className="bg-white"
+						{...register('description')}
 					/>
 				</div>
 				<div className="sender-receiver-container grid grid-cols-2 gap-10">
@@ -29,14 +50,16 @@ const Registration = () => {
 						fullWidth
 						label="Sender"
 						className="bg-white"
+						{...register('sender')}
 					/>
 					<TextField
 						fullWidth
 						label="Receiver"
 						className="bg-white"
+						{...register('receiver')}
 					/>
 				</div>
-				<div className="grid grid-cols-2 gap-10">
+				{/* <div className="grid grid-cols-2 gap-10">
 					<FormControl>
 						<FormLabel id="send-receive-method-label">Send/Receive Method</FormLabel>
 						<RadioGroup
@@ -48,6 +71,7 @@ const Registration = () => {
 								value="email"
 								control={<Radio />}
 								label="Email"
+								checked
 							/>
 							<FormControlLabel
 								value="post"
@@ -73,6 +97,7 @@ const Registration = () => {
 								value="normal"
 								control={<Radio />}
 								label="Normal"
+								checked
 							/>
 							<FormControlLabel
 								value="soon"
@@ -86,18 +111,18 @@ const Registration = () => {
 							/>
 						</RadioGroup>
 					</FormControl>
-				</div>
+				</div> */}
 				<div className="action-box">
 					<Button
 						variant="contained"
 						color="success"
+						type="submit"
 					>
 						Success
 					</Button>
-					<Button variant="outlined">Outlined</Button>
 				</div>
 			</Container>
-		</div>
+		</form>
 	);
 };
 
